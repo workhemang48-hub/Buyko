@@ -1,11 +1,14 @@
 ﻿import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_APP_PASSWORD,
   },
+  family: 4, // force IPv4 — Render's network can't route Gmail's IPv6 address
 });
 
 export const sendOrderConfirmationEmail = async (order, userEmail) => {
