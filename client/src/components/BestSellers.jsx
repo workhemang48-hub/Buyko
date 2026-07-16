@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../api/axios";
 
 const BestSellers = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.filter((p) => p.bestseller === true));
+    api
+      .get("/products")
+      .then((res) => {
+        setProducts(res.data.filter((p) => p.bestseller === true));
       })
       .catch((err) => console.error("BestSellers fetch error:", err));
   }, []);

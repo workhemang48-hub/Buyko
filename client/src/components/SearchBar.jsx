@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
+import api from '../api/axios';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -11,9 +12,9 @@ export default function SearchBar() {
 
   // Fetch all products once
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
+    api
+      .get('/products')
+      .then((res) => setProducts(res.data))
       .catch(() => {});
   }, []);
 
