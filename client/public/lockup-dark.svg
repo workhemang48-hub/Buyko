@@ -1,0 +1,16 @@
+<svg width="280" height="80" viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF8A65"/>
+      <stop offset="100%" stop-color="#FF6B6B"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="10" width="60" height="60" rx="16" fill="url(#bk)"/>
+  <path d="M 23 33 C 23 26, 27 21, 30 21 C 33 21, 37 26, 37 33"
+        fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" opacity="0.97"/>
+  <path d="M 18.5 34 L 41.5 34 L 43.5 56 C 43.8 59, 41 61.5, 37.5 61.5 L 22.5 61.5 C 19 61.5, 16.2 59, 16.5 56 Z"
+        fill="#FFFFFF" opacity="0.97"/>
+  <circle cx="26.5" cy="44.5" r="2.6" fill="#FF6B6B"/>
+  <circle cx="33.5" cy="44.5" r="2.6" fill="#FF6B6B"/>
+  <text x="75" y="50" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="url(#bk)">buyko</text>
+</svg>
