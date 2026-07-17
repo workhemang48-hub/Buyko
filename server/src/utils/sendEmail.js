@@ -1,15 +1,29 @@
-﻿import nodemailer from 'nodemailer';
+﻿const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_APP_PASSWORD,
-  },
-  family: 4, // force IPv4 — Render's network can't route Gmail's IPv6 address
-});
+const sendViaBrevo = async ({ to, subject, html, text }) => {
+  const response = await fetch(BREVO_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'api-key': process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: 'Buyko', email: process.env.BREVO_SENDER_EMAIL },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+      textContent: text,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Brevo API error (${response.status}): ${errorBody}`);
+  }
+
+  return response.json();
+};
 
 export const sendOrderConfirmationEmail = async (order, userEmail) => {
   const paymentLine =
@@ -91,15 +105,12 @@ We'll notify you when your order ships.`;
     </div>
   </div>`;
 
-  const mailOptions = {
-    from: `"Buyko" <${process.env.EMAIL_USER}>`,
+  await sendViaBrevo({
     to: userEmail,
     subject: `Order Confirmed — #${order._id}`,
     text: textBody,
     html: htmlBody,
-  };
-
-await transporter.sendMail(mailOptions);
+  });
 };
 
 export const sendOrderStatusEmail = async (order, userEmail, newStatus) => {
@@ -153,15 +164,12 @@ export const sendOrderStatusEmail = async (order, userEmail, newStatus) => {
     </div>
   </div>`;
 
-  const mailOptions = {
-    from: `"Buyko" <${process.env.EMAIL_USER}>`,
+  await sendViaBrevo({
     to: userEmail,
     subject: `${content.subject} — #${order._id}`,
     text: `${content.heading}\n\nOrder ID: ${order._id}\n\n${content.message}`,
     html: htmlBody,
-  };
-
-  await transporter.sendMail(mailOptions);
+  });
 };
 
 export const sendPasswordResetEmail = async (user, resetUrl) => {
@@ -187,13 +195,10 @@ export const sendPasswordResetEmail = async (user, resetUrl) => {
     </div>
   </div>`;
 
-  const mailOptions = {
-    from: `"Buyko" <${process.env.EMAIL_USER}>`,
+  await sendViaBrevo({
     to: user.email,
     subject: 'Reset your Buyko password',
     text: `Hi ${user.name},\n\nWe received a request to reset your password. This link expires in 1 hour.\n\n${resetUrl}\n\nIf you didn't request this, you can safely ignore this email.`,
     html: htmlBody,
-  };
-
-  await transporter.sendMail(mailOptions);
+  });
 };
