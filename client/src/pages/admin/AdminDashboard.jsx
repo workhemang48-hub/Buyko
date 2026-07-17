@@ -155,14 +155,14 @@ const handleExportCSV = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="border border-white/10 rounded-xl p-6 text-center"
+            className="border border-white/10 rounded-xl p-4 sm:p-6 text-center overflow-hidden"
           >
-            <p className="text-2xl font-semibold text-buyko-text mb-1">{stat.value}</p>
-            <p className="text-sm text-buyko-text-dim">{stat.label}</p>
+            <p className="text-lg sm:text-2xl font-semibold text-buyko-text mb-1 break-words">{stat.value}</p>
+            <p className="text-xs sm:text-sm text-buyko-text-dim">{stat.label}</p>
           </div>
         ))}
       </div>
