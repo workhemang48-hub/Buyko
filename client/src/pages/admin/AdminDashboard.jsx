@@ -114,7 +114,7 @@ const handleExportCSV = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       <h1 className="text-3xl font-semibold text-buyko-text mb-2 text-center">Admin Dashboard</h1>
-      <div className="flex items-center justify-center gap-3 mb-10">
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
         <label className="text-sm text-buyko-text-dim">
           From
           <input

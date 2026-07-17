@@ -52,8 +52,8 @@ export default function AdminSubscribers() {
             <tbody>
               {subscribers.map((subscriber) => (
                 <tr key={subscriber._id} className="border-b border-white/5">
-                  <td className="px-4 py-3 text-buyko-text">{subscriber.email}</td>
-                  <td className="px-4 py-3 text-buyko-text-dim">
+                  <td className="px-4 py-3 text-buyko-text break-all">{subscriber.email}</td>
+                  <td className="px-4 py-3 text-buyko-text-dim whitespace-nowrap">
                     {new Date(subscriber.createdAt).toLocaleDateString('en-IN', {
                       day: 'numeric',
                       month: 'short',

@@ -29,21 +29,21 @@ export default function AdminLayout({ children }) {
   return (
     <div>
       <div className="border-b border-buyko-border">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-6 overflow-x-auto">
-          <div className="flex items-center gap-6">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-6">
+          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar">
             {tabs.map((tab) =>
               tab.enabled ? (
                 <Link
                   key={tab.path}
                   to={tab.path}
-                  className={`${adminLinkClass(location.pathname === tab.path)} py-4`}
+                  className={`${adminLinkClass(location.pathname === tab.path)} py-4 whitespace-nowrap flex-shrink-0`}
                 >
                   {tab.label}
                 </Link>
               ) : (
                 <span
                   key={tab.path}
-                  className="text-sm py-4 text-buyko-text-dim/40 cursor-not-allowed whitespace-nowrap"
+                  className="text-sm py-4 text-buyko-text-dim/40 cursor-not-allowed whitespace-nowrap flex-shrink-0"
                   title="Coming soon"
                 >
                   {tab.label}
@@ -52,12 +52,12 @@ export default function AdminLayout({ children }) {
             )}
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-buyko-text-dim whitespace-nowrap">
-            <Link to="/" className="hover:text-buyko-text transition-colors duration-200">
+          <div className="flex items-center gap-4 text-sm text-buyko-text-dim whitespace-nowrap pb-3 sm:pb-0 overflow-x-auto no-scrollbar">
+            <Link to="/" className="hover:text-buyko-text transition-colors duration-200 flex-shrink-0">
               Back to shop
             </Link>
-            <span className="text-buyko-text">{user?.name}</span>
-            <button onClick={handleLogout} className="hover:text-buyko-text transition-colors duration-200">
+            <span className="text-buyko-text flex-shrink-0">{user?.name}</span>
+            <button onClick={handleLogout} className="hover:text-buyko-text transition-colors duration-200 flex-shrink-0">
               Logout
             </button>
           </div>

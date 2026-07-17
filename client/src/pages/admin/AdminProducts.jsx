@@ -103,9 +103,9 @@ const filteredProducts =
 
   return (
     <div>
-     <div className="flex items-center justify-between mb-6">
+     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 className="text-2xl font-semibold text-buyko-text">Products</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedSubCategory}
             onChange={(e) => setSelectedSubCategory(e.target.value)}
@@ -143,7 +143,59 @@ const filteredProducts =
           {selectedSubCategory === 'all' ? 'No products yet.' : 'No products in this category.'}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-white/10">
+        <>
+        {/* Mobile: card layout */}
+        <div className="space-y-3 md:hidden">
+          {filteredProducts.map((product) => (
+            <div key={product._id} className="border border-white/10 rounded-xl p-4">
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <p className="text-buyko-text font-medium">{product.name}</p>
+                <div className="flex-shrink-0 text-right">
+                  <span className="text-buyko-text">&#8377;{product.price}</span>
+                  {product.originalPrice > product.price && (
+                    <span className="ml-2 text-xs text-buyko-text-dim/50 line-through">
+                      &#8377;{product.originalPrice}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm mb-3">
+                {product.sizes.map((s) => {
+                  const colorClass =
+                    s.stock === 0
+                      ? 'text-rose-400'
+                      : s.stock < 10
+                      ? 'text-orange-400'
+                      : 'text-green-400';
+                  return (
+                    <span key={s._id || s.size} className="text-buyko-text-dim">
+                      {s.size}: <span className={colorClass}>{s.stock}</span>
+                    </span>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center gap-4 pt-3 border-t border-white/10">
+                <button
+                  onClick={() => openEditModal(product)}
+                  className="text-orange-400 text-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(product)}
+                  className="text-red-400 text-sm"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: table layout */}
+        <div className="hidden md:block overflow-x-auto rounded-lg border border-white/10">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-buyko-text-dim border-b border-white/10">
@@ -205,6 +257,7 @@ const filteredProducts =
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {modalOpen && (

@@ -76,7 +76,44 @@ export default function AdminUsers({ showToast }) {
       {users.length === 0 ? (
         <p className="text-buyko-text-dim text-center py-10">No users yet.</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-white/10">
+        <>
+        {/* Mobile: card layout */}
+        <div className="space-y-3 md:hidden">
+          {users.map((u) => {
+            const isSelf = u._id === currentUser?._id;
+            return (
+              <div key={u._id} className="border border-white/10 rounded-xl p-4">
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <p className="text-buyko-text font-medium">
+                    {u.name} {isSelf && <span className="text-xs text-buyko-text-dim">(you)</span>}
+                  </p>
+                  <span className="text-xs text-buyko-text-dim capitalize flex-shrink-0">{u.role}</span>
+                </div>
+                <p className="text-sm text-buyko-text-dim break-all mb-1">{u.email}</p>
+                <p className="text-xs text-buyko-text-dim mb-3">Joined {formatDate(u.createdAt)}</p>
+                {!isSelf && (
+                  <div className="flex items-center gap-4 pt-3 border-t border-white/10">
+                    <button
+                      onClick={() => handleToggleRole(u)}
+                      className="text-orange-400 text-sm"
+                    >
+                      {u.role === 'admin' ? 'Demote' : 'Promote'}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(u)}
+                      className="text-red-400 text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop: table layout */}
+        <div className="hidden md:block overflow-x-auto rounded-lg border border-white/10">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-buyko-text-dim border-b border-white/10">
@@ -123,6 +160,7 @@ export default function AdminUsers({ showToast }) {
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   );
